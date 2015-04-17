@@ -2,17 +2,18 @@
 #this repository contains the full copyright notices and license terms.
 "Options"
 import ConfigParser
+import gettext
+import locale
+import logging
 import optparse
 import os
-import gettext
-from version import VERSION
-import logging
-import sys
-import locale
-import gtk
 import site
+import sys
+
+import gtk
 
 from tryton.exceptions import TrytonError
+from version import VERSION
 
 _ = gettext.gettext
 
@@ -181,7 +182,9 @@ else:
         unicode(os.path.dirname(__file__), sys.getfilesystemencoding()),
         '..')))
 
-for dir in [CURRENT_DIR, site.USER_BASE, sys.prefix]:
+local_prefix = os.path.join(sys.prefix, 'local') # Fast patch
+
+for dir in [CURRENT_DIR, site.USER_BASE, sys.prefix, local_prefix]:
     PIXMAPS_DIR = os.path.join(dir, 'share', 'pixmaps', 'tryton')
     if os.path.isdir(PIXMAPS_DIR):
         break
